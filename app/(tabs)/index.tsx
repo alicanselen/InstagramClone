@@ -1,22 +1,16 @@
 import { Stack } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { FlatList } from 'react-native';
+import posts from '~/assets/data/post.json'
+import {Ionicons , AntDesign , Feather} from '@expo/vector-icons'
+import PostListItem from '~/components/PostListItem';
 
-import { ScreenContent } from '~/components/ScreenContent';
 
 export default function Home() {
+
   return (
-    <>
-      <Stack.Screen options={{ title: 'Tab One' }} />
-      <View style={styles.container}>
-        <ScreenContent path="app/(tabs)/index.tsx" title="Tab One" />
-      </View>
-    </>
+    <FlatList
+    data={posts}
+    contentContainerStyle={{gap:12}}
+    renderItem={({item})=><PostListItem post={item} />}/>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-});
