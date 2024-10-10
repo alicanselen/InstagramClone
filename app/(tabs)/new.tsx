@@ -1,10 +1,10 @@
-import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View  , Image, TextInput, Pressable} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { ScreenContent } from '~/components/ScreenContent';
 import Button from '~/components/buttons';
-
+import {upload} from "cloudinary-react-native"
+import { cld } from '~/lib/cloudinary';
+import {UploadApiResponse} from 'cloudinary-react-native/lib/typescript/src/api/upload/model/params/upload-params'
 export default function Home() {
   const [caption , setCaption]= useState('');
   const [image , setImage] = useState<string | null>(null);
@@ -21,13 +21,53 @@ export default function Home() {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.5,
     });
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
+
+  const uploadImage = async()=>{
+
+          
+    if(!image){
+      return;
+    }
+
+    const options = {
+      upload_preset: 'Default',
+      unsigned: true,
+  }
+
+    return new Promise<UploadApiResponse>(async(resolve , reject)=>{
+  
+      await upload(cld, {
+        file: image , 
+        options: options, 
+        callback: (error: any, response: any) => {
+          if(error || !response){
+            reject(error);
+          }else{
+            resolve(response);
+          }
+          //.. handle response
+      }});
+    });
+    //resimler media alanina yuklenir(Cloudinary)
+
+
+  }
+
+  const createPost= async ()=>{
+    //resimler cloudinarye yuklenecek
+    const response = await uploadImage();
+
+    console.log("image id" , response?.public_id);
+
+    //post bilgileri veritabanina kayit edilmesi
+  }
   return (
     <View className='p-3 items-center flex-1'>
       {/* imagge Picker*/}
@@ -52,7 +92,7 @@ export default function Home() {
 
       {/* Button*/}
       <View className='mt-auto w-full'>
-      <Button title=" paylas"/>
+      <Button title=" paylas" onPress={createPost}/>
       </View>
     </View>
   );
