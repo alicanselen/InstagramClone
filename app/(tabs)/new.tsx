@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View  , Image, TextInput, Pressable} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ScreenContent } from '~/components/ScreenContent';
+import Button from '~/components/buttons';
 
 export default function Home() {
   const [caption , setCaption]= useState('');
@@ -35,7 +36,9 @@ export default function Home() {
         uri: image
       }}
       className='w-52 aspect-[3/4] rounded-lg bg-slate-300'/>
-    ):(<View className='w-52 aspect-[3/4] rounded-lg bg-slate-300'/>)}
+    ):(
+    <View className='w-52 aspect-[3/4] rounded-lg bg-slate-300'/>
+    )}
 
       <Text onPress={pickImage} className='text-blue-500 font-semibold m-5'>Change</Text>
 
@@ -49,9 +52,7 @@ export default function Home() {
 
       {/* Button*/}
       <View className='mt-auto w-full'>
-      <Pressable className='bg-blue-500 w-full p-3 items-center rounded-md'>
-        <Text className='text-white font-semibold'>Paylas</Text>
-      </Pressable>
+      <Button title=" paylas"/>
       </View>
     </View>
   );
