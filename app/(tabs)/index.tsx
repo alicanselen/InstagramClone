@@ -10,7 +10,14 @@ export default function Home() {
   return (
     <FlatList
     data={posts}
-    contentContainerStyle={{gap:12}}
-    renderItem={({item})=><PostListItem post={item} />}/>
+    renderItem={({item})=><PostListItem post={item} />}
+    contentContainerStyle={{
+      gap:10,
+      maxWidth: 512,
+      alignSelf:'center',
+      width:'100%'
+    }}
+    showsVerticalScrollIndicator={false}
+    />
   );
 }
