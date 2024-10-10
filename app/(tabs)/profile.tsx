@@ -2,6 +2,7 @@ import { Text, View ,Image, TextInput } from "react-native";
 import * as ImagePicker from "expo-image-picker" ; 
 import { useEffect, useState } from "react";
 import Button from "~/components/buttons";
+import { supabase } from "~/lib/supabase";
 
 export default function Profile(){
     const [image , setImage] = useState<string | null>(null);
@@ -45,7 +46,7 @@ export default function Profile(){
             {/* Footer Button*/}
             <View className="gap-1 mt-auto">
                 <Button title="Bilgileri Guncelle"/>
-                <Button title="Cikis Yap"/>
+                <Button title="Cikis Yap" onPress={()=> supabase.auth.signOut()}/>
             </View>
         </View>
     );

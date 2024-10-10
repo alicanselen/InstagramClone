@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View  , Image, TextInput, Pressable} from 'react-native';
+import { Text, View  , Image, TextInput, Pressable} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Button from '~/components/buttons';
-import {upload} from "cloudinary-react-native"
-import { cld } from '~/lib/cloudinary';
-import {UploadApiResponse} from 'cloudinary-react-native/lib/typescript/src/api/upload/model/params/upload-params'
+import {  uploadImage } from '~/lib/cloudinary';
+
 export default function Home() {
   const [caption , setCaption]= useState('');
   const [image , setImage] = useState<string | null>(null);
@@ -29,40 +28,13 @@ export default function Home() {
     }
   };
 
-  const uploadImage = async()=>{
 
-          
+  const createPost= async ()=>{
     if(!image){
       return;
     }
-
-    const options = {
-      upload_preset: 'Default',
-      unsigned: true,
-  }
-
-    return new Promise<UploadApiResponse>(async(resolve , reject)=>{
-  
-      await upload(cld, {
-        file: image , 
-        options: options, 
-        callback: (error: any, response: any) => {
-          if(error || !response){
-            reject(error);
-          }else{
-            resolve(response);
-          }
-          //.. handle response
-      }});
-    });
-    //resimler media alanina yuklenir(Cloudinary)
-
-
-  }
-
-  const createPost= async ()=>{
     //resimler cloudinarye yuklenecek
-    const response = await uploadImage();
+    const response = await uploadImage(image);
 
     console.log("image id" , response?.public_id);
 
