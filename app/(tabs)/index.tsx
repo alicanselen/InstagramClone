@@ -19,7 +19,7 @@ export default function Home() {
 
 let { data, error } = await supabase
 .from('posts')
-.select('* ,user:profiles(*');
+.select('* ,user:profiles(*)');
 
 if(error){
   Alert.alert('Bir Seyler Ters Gitti');
